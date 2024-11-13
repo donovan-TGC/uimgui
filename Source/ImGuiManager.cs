@@ -58,9 +58,12 @@ namespace UImGui
 		private RenderType _rendererType = RenderType.Mesh;
 
         /// <summary>
-        /// We use InputSystem package versus legacy input system so that we can use ImGui outside of play mode
+        /// You can use InputSystem package versus legacy input system if you want to use ImGui outside of play mode
+		/// A previous version of ImGuiManager was built and tested to do just that, but now we're always running
+		/// in Play in Editor mode or as a built player so we use 
         /// </summary>
-		private InputType _platformType = InputType.InputSystem;
+		private InputType _platformType = InputType.InputManager;
+//		private InputType _platformType = InputType.InputSystem;
 
 		private IniSettingsAsset _iniSettings = null;
 
