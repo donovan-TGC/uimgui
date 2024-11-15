@@ -43,6 +43,8 @@ namespace UImGui
         }
 
 
+		private string m_settingsToLoad;
+		private bool m_insideNewFrame;
 
 
 		private Context _context;
@@ -184,6 +186,26 @@ namespace UImGui
 			m_performReload = true;
 		}
 
+		/// <summary>
+		/// Retrieves the settings (layout) info from ImGui and returns
+		/// it as as string for caller to save for later use.
+		/// </summary>
+		/// <returns></returns>
+		public string SaveLayoutToMemory()
+		{
+			return ImGui.SaveIniSettingsToMemory();
+		}
+
+		/// <summary>
+		/// Stashes the provided settings string and applies it on the next
+		/// DoUpdate() before we call ImGui.NewFrame()
+		/// </summary>
+		/// <param name="settings"></param>
+		public void LoadLayoutFromMemory(string settings)
+		{
+			m_settingsToLoad = settings;
+		}
+
 		private void Initialize()
 		{
 			void Fail(string reason)
@@ -218,6 +240,10 @@ namespace UImGui
 			UImGuiUtility.SetCurrentContext(_context);
 
 			ImGuiIOPtr io = ImGui.GetIO();
+
+			// We don't want ImGui to use the default "imgui.ini" file as we
+			// will perform our own load/save of settings (layout info)
+			io.SetIniFilename(null);
 
 			_initialConfiguration.ApplyTo(io);
 			_style?.ApplyTo(ImGui.GetStyle());
@@ -323,6 +349,14 @@ namespace UImGui
 
 		internal void DoUpdate(CommandBuffer buffer)
 		{
+			m_insideNewFrame = true;
+			if (!string.IsNullOrEmpty(m_settingsToLoad))
+			{
+				string settings = m_settingsToLoad;
+				m_settingsToLoad = null;
+				ImGui.LoadIniSettingsFromMemory(settings);
+			}
+			
 			UImGuiUtility.SetCurrentContext(_context);
 			ImGuiIOPtr io = ImGui.GetIO();
 
@@ -345,6 +379,10 @@ namespace UImGui
 
 				Layout?.Invoke(this);
 			}
+			catch (System.Exception exc)
+			{
+				Debug.LogException(exc);
+			}
 			finally
 			{
 				ImGui.Render();
@@ -355,6 +393,8 @@ namespace UImGui
 			_renderCommandBuffer.Clear();
 			_renderer.RenderDrawLists(buffer, ImGui.GetDrawData());
 			Constants.DrawListMarker.End();
+
+			m_insideNewFrame = false;
 		}
 
 		private void SetRenderer(IRenderer renderer, ImGuiIOPtr io)
