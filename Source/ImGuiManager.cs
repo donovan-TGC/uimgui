@@ -98,6 +98,11 @@ namespace UImGui
 		private FontInitializerEvent _fontCustomInitializer = new FontInitializerEvent();
 
 		private FontAtlasConfigAsset _fontAtlasConfiguration = null;
+		public void SetFontAtlasConfiguration(object _config)
+		{
+			FontAtlasConfigAsset config = _config as FontAtlasConfigAsset;
+			_fontAtlasConfiguration = config;
+		}
 
 		private ShaderResourcesAsset _shaders = null;
 

@@ -146,10 +146,24 @@ namespace UImGui.Texture
 					ImFontConfigPtr fontConfigPtr = new ImFontConfigPtr(&fontConfig);
 
 					fontDefinition.Config.ApplyTo(fontConfigPtr);
+#if false
 					fontConfigPtr.GlyphRanges = AllocateGlyphRangeArray(fontDefinition.Config);
-
+					
 					// TODO: Add check if is TTF File.
 					io.Fonts.AddFontFromFileTTF(fontPath, fontDefinition.Config.SizeInPixels, fontConfigPtr);
+#else
+					fontConfigPtr.GlyphRanges = AllocateGlyphRangeArray(fontDefinition.Config);
+
+					// Passing fontConfigPtr causes AddFontFromFileTTF() to fail. 
+					// Following two versions fail (fontPtr.IsLoaded() returns false, fontPtr.SizeInPixels == 0):
+					//	mFontPtr fontPtr = io.Fonts.AddFontFromFileTTF(fontPath, fontDefinition.Config.SizeInPixels, fontConfigPtr);
+					//	ImFontPtr fontPtr = io.Fonts.AddFontFromFileTTF(fontPath, fontDefinition.Config.SizeInPixels, fontConfigPtr, fontConfigPtr.GlyphRanges);
+
+					// Following two versions seem to work correctly
+					ImFontPtr fontPtr = io.Fonts.AddFontFromFileTTF(fontPath, fontDefinition.Config.SizeInPixels, null, fontConfigPtr.GlyphRanges);
+					//ImFontPtr fontPtr = io.Fonts.AddFontFromFileTTF(fontPath, fontDefinition.Config.SizeInPixels);
+#endif					
+
 				}
 			}
 
