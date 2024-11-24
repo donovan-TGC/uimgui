@@ -26,6 +26,28 @@ namespace UImGui.Editor
 				ImGuiStylePtr style = ImGui.GetStyle();
 
 				GUILayout.BeginHorizontal();
+				if (GUILayout.Button("Set to 'Dark'"))
+				{
+					ImGui.StyleColorsDark(style);
+					styleAsset.SetFrom(style);
+					styleAsset.ApplyTo(style);
+				}
+				if (GUILayout.Button("Set to 'Light'"))
+				{
+					ImGui.StyleColorsLight(style);
+					styleAsset.SetFrom(style);
+					styleAsset.ApplyTo(style);
+				}
+				if (GUILayout.Button("Set to 'Classic'"))
+				{
+					ImGui.StyleColorsClassic(style);
+					styleAsset.SetFrom(style);
+					styleAsset.ApplyTo(style);
+				}
+				GUILayout.EndHorizontal();
+
+
+				GUILayout.BeginHorizontal();
 				if (GUILayout.Button("Apply"))
 				{
 					styleAsset.ApplyTo(style);

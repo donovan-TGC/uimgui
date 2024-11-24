@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 27a62d5358735d64dbe4d43f0a81e5bf
+guid: a6d60c81bd73f41c9861d6617278b6a1
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -14,18 +14,18 @@ PluginImporter:
   - first:
       Any: 
     second:
-      enabled: 1
+      enabled: 0
       settings: {}
   - first:
       Editor: Editor
     second:
-      enabled: 0
+      enabled: 1
       settings:
         DefaultValueInitialized: true
   - first:
-      Windows Store Apps: WindowsStoreApps
+      Standalone: OSXUniversal
     second:
-      enabled: 0
+      enabled: 1
       settings:
         CPU: AnyCPU
   userData: 

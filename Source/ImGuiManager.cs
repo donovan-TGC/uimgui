@@ -106,6 +106,11 @@ namespace UImGui
 
 		private ShaderResourcesAsset _shaders = null;
 
+		public void SetStyleAsset(object _styleAsset)
+		{
+			StyleAsset styleAsset = _styleAsset as StyleAsset;
+			_style = styleAsset;
+		}
 		private StyleAsset _style = null;
 
 		private CursorShapesAsset _cursorShapes = null;
