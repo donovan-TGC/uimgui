@@ -9,6 +9,9 @@ namespace UImGui.Assets
 		[Tooltip("Global alpha applies to everything in ImGui.")]
 		public float Alpha;
 
+		[Tooltip("Additional alpha multiplier applied by BeginDisabled(). Multiply over current value of Alpha.")]
+		public float DisabledAlpha = 0.3f;
+
 		[Tooltip("Padding within a window.")]
 		public Vector2 WindowPadding;
 
@@ -147,6 +150,7 @@ namespace UImGui.Assets
 		public unsafe void ApplyTo(ImGuiStylePtr s)
 		{
 			s.Alpha = Alpha;
+			s.DisabledAlpha = DisabledAlpha;
 
 			s.WindowPadding = WindowPadding;
 			s.WindowRounding = WindowRounding;
@@ -214,6 +218,7 @@ namespace UImGui.Assets
 		public unsafe void SetFrom(ImGuiStylePtr s)
 		{
 			Alpha = s.Alpha;
+			DisabledAlpha = s.DisabledAlpha;
 
 			WindowPadding = s.WindowPadding;
 			WindowRounding = s.WindowRounding;
